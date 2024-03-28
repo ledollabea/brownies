@@ -4,14 +4,34 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 let lastKey = "";
+var pixelX = 0;
+var pixelY = 0;
+var brownieX = 0;
+var brownieY = 0;
+var radiusVar = 0;
+
+if (innerWidth <= 480) {
+  pixelX = 25;
+  pixelY = 25;
+  radiusVar = 9;
+  brownieX = 9;
+  brownieY = 3;
+} else {
+  pixelX = 40;
+  pixelY = 40;
+  radiusVar = 15;
+
+  brownieX = 15;
+  brownieY = 5;
+}
 
 class Boundary {
-  static width = 40;
-  static height = 40;
+  static width = pixelX;
+  static height = pixelY;
   constructor({ position }) {
     this.position = position;
-    this.width = 40;
-    this.height = 40;
+    this.width = pixelX;
+    this.height = pixelY;
   }
 
   drawBoundary() {
@@ -20,11 +40,26 @@ class Boundary {
   }
 }
 
+class Brownie {
+  static width = brownieX;
+  static height = brownieY;
+  constructor({ position }) {
+    this.position = position;
+    this.width = brownieX;
+    this.height = brownieY;
+  }
+
+  drawBrownie() {
+    c.fillStyle = "brown";
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
 class Player {
   constructor({ position, velocity }) {
     this.position = position;
     this.velocity = velocity;
-    this.radius = 15;
+    this.radius = radiusVar;
   }
 
   draw() {
@@ -61,25 +96,49 @@ const keys = {
 };
 
 const map = [
-  ["-", "-", "-", "-", "-", "-", "-"],
-  ["-", " ", " ", " ", " ", " ", "-"],
-  ["-", " ", "-", " ", "-", " ", "-"],
-  ["-", " ", " ", " ", " ", " ", "-"],
-  ["-", " ", "-", " ", "-", " ", "-"],
-  ["-", " ", " ", " ", " ", " ", "-"],
-  ["-", "-", "-", "-", "-", "-", "-"],
+  ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+  ["-", " ", ".", ".", ".", ".", ".", ".", ".", ".", "-"],
+  ["-", ".", "-", ".", "-", "-", "-", ".", "-", ".", "-"],
+  ["-", ".", ".", ".", ".", "-", ".", ".", ".", ".", "-"],
+  ["-", ".", "-", "-", ".", ".", ".", "-", "-", ".", "-"],
+  ["-", ".", ".", ".", ".", "-", ".", ".", ".", ".", "-"],
+  ["-", ".", "-", ".", "-", "-", "-", ".", "-", ".", "-"],
+  ["-", ".", ".", ".", ".", "-", ".", ".", ".", ".", "-"],
+  ["-", ".", "-", "-", ".", ".", ".", "-", "-", ".", "-"],
+  ["-", ".", ".", ".", ".", "-", ".", ".", ".", ".", "-"],
+  ["-", ".", "-", ".", "-", "-", "-", ".", "-", ".", "-"],
+  ["-", ".", ".", ".", ".", ".", ".", ".", ".", " ", "-"],
+  ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
 ];
+
+const brownies = [];
 const boundaries = [];
 
+function createImage(src) {
+  const image = new Image();
+  image.src = src;
+  return image;
+}
+
 map.forEach((row, i) => {
-  row.forEach((dash, j) => {
-    switch (dash) {
+  row.forEach((symbol, j) => {
+    switch (symbol) {
       case "-":
         boundaries.push(
           new Boundary({
             position: {
               x: Boundary.width * j,
               y: Boundary.height * i,
+            },
+          })
+        );
+        break;
+      case ".":
+        brownies.push(
+          new Brownie({
+            position: {
+              x: j * Boundary.width + Boundary.width / 2,
+              y: i * Boundary.height + Boundary.height / 2,
             },
           })
         );
@@ -166,6 +225,10 @@ function animate() {
       }
     }
   }
+
+  brownies.forEach((brownie) => {
+    brownie.drawBrownie();
+  });
 
   boundaries.forEach((b) => {
     b.drawBoundary();

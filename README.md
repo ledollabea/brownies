@@ -6,15 +6,15 @@ Bem-vindo ao jogo BROWNIE-MAN! Este é um clone do clássico jogo PACMAN porém 
 
 Para jogar o jogo, siga estas instruções:
 
-1. Use as teclas de seta (cima, baixo, esquerda, direita) para mover o BROWNIE-MAN pelo labirinto.
+1. Use as teclas de movemento w, a, s, d (cima, esquerda, baixo, direita - respectivamente) para mover o BROWNIE-MAN pelo labirinto.
 2. Colete todos os pontos (brownies) espalhados pelo labirinto para ganhar pontos.
-3. Se a criatura comer mais brownies que você, você perde. 
+3. Se a criatura comer mais brownies que você, você perde.
 4. Você só tem uma vida. O jogo termina quando os brownies acabam.
 5. Os pontos contados seus e da criatura estarão no visor mostrando o vencedor e o perdedor.
 
 ## Controles
 
-- Setas do teclado: Mover o BROWNIE-MAN pelo labirinto.
+- w, a, s, d: Mover o BROWNIE-MAN pelo labirinto.
 
 ## Estrutura do Projeto
 
